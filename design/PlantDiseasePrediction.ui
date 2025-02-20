@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>964</width>
-    <height>582</height>
+    <width>1002</width>
+    <height>611</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,7 +71,7 @@
       <item row="1" column="3" colspan="2">
        <widget class="QLabel" name="predicted_img">
         <property name="styleSheet">
-         <string notr="true">background-color: green;</string>
+         <string notr="true">background-color: white;</string>
         </property>
         <property name="text">
          <string/>
@@ -212,7 +212,7 @@ QPushButton:pressed {
       <item row="1" column="1" rowspan="4">
        <widget class="QLabel" name="realtime_img">
         <property name="styleSheet">
-         <string notr="true">background-color: green;</string>
+         <string notr="true">background-color: white;</string>
         </property>
         <property name="text">
          <string/>

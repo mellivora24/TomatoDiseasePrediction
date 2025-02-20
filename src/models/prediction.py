@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 import src.ultis.path as path
+import cv2
 
 class_name = ['Bệnh ghẻ táo',
               'Bệnh thối đen',
@@ -43,10 +44,11 @@ class_name = ['Bệnh ghẻ táo',
 
 model = tf.keras.models.load_model(path.resource_path('models/trained_files/model.h5'))
 
-def model_prediction(test_image):
-    image = tf.keras.preprocessing.image.load_img(test_image, target_size=(128, 128))
-    input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = np.array([input_arr])
+def model_prediction(image_array):
+    """Nhận ảnh numpy array, chuyển đổi & dự đoán"""
+    image_resized = cv2.resize(image_array, (128, 128))
+    image_resized = image_resized / 255.0
+    input_arr = np.expand_dims(image_resized, axis=0)
 
     prediction = model.predict(input_arr)
     result_index = np.argmax(prediction)
@@ -55,4 +57,5 @@ def model_prediction(test_image):
 
 if __name__ == "__main__":
     img_path = "../../test/test.jpg"
-    print(model_prediction(img_path))
+    img = cv2.imread(img_path)
+    print(model_prediction(img))
