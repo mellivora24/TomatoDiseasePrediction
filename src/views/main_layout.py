@@ -1,9 +1,11 @@
 import cv2
+import requests
 import webbrowser
 import numpy as np
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtCore import QTimer  # Thêm QTimer để tạo lịch tự động
 from src.ultis.camera import CameraThread
 import src.models.prediction as prediction
 
@@ -45,6 +47,10 @@ class App(QMainWindow):
         self.camera_thread.frame_signal.connect(self.update_frame)
         self.camera_thread.start()
 
+        self.auto_predict_timer = QTimer(self)
+        self.auto_predict_timer.timeout.connect(self.predict)
+        self.auto_predict_timer.start(15000)
+
     def update_frame(self, frame):
         """ Cập nhật ảnh từ camera lên giao diện """
         self.ui.realtime_img.setPixmap(QPixmap.fromImage(frame))
@@ -68,6 +74,8 @@ class App(QMainWindow):
 
         self.ui.predicted_img.setPixmap(scaled_pixmap)
         self.ui.predicted_res.setText(result)
+
+        requests.get(f"https://sgp1.blynk.cloud/external/api/update?token=ATIa0ZEmi0ouwZwlDqBKWwPI858HoEcv&V8={result}")
 
         if result == "Cây khỏe mạnh":
             self.ui.result_infor.setText("Bạn không cần phải lo lắng, cây của bạn đang khỏe mạnh!")
