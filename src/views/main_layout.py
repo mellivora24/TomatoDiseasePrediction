@@ -4,10 +4,11 @@ import webbrowser
 import numpy as np
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtCore import QTimer  # Thêm QTimer để tạo lịch tự động
+from PyQt5.QtCore import QTimer
+import src.ultis.chat_gpt as ChatGPT
 from src.ultis.camera import CameraThread
 import src.models.prediction as prediction
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
 disease_info = {
     "Bệnh ghẻ táo": "Triệu chứng: Xuất hiện đốm màu nâu, sần sùi trên lá và quả.\nBiện pháp: Cắt tỉa cành nhiễm bệnh, sử dụng thuốc gốc đồng.",
@@ -40,7 +41,8 @@ class App(QMainWindow):
 
         self.ui.result_infor.setText("")
         self.ui.predicted_res.setText("")
-        self.ui.predicting_btn.clicked.connect(self.predict)
+        self.ui.predicting_btn.setText("Chat với Chatbot")
+        self.ui.predicting_btn.clicked.connect(self.chat_gpt)
         self.ui.moreInfor_btn.clicked.connect(self.more_info)
 
         self.camera_thread = CameraThread()
@@ -86,3 +88,13 @@ class App(QMainWindow):
         """ Mở Google tìm kiếm thông tin về bệnh cây đã dự đoán """
         if self.ui.predicted_res.text() != "":
             webbrowser.open("https://www.google.com/search?q=" + self.ui.predicted_res.text())
+
+    def chat_gpt(self):
+        """ Mở chức năng chatbot và hiển thị kết quả qua popup """
+        predicted_text = self.ui.predicted_res.text()
+
+        if predicted_text == "":
+            QMessageBox.information(self, "Thông báo", "Bạn chưa nhận diện")
+        else:
+            chatbot_result = ChatGPT.openai_response(predicted_text)
+            QMessageBox.information(self, "Kết quả từ Chatbot", chatbot_result)

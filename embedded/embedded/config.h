@@ -3,8 +3,8 @@
 #define WS2812B_PIN         17
 #define LIGHT_SENSOR        16
 #define DHT_11_SENSOR       19
-#define HUMIDITY_SENSOR_1   26
-#define HUMIDITY_SENSOR_2   27
+#define HUMIDITY_SENSOR_1   34
+#define HUMIDITY_SENSOR_2   35
 
 // Blynk variable const
 #define BLYNK_TEMPLATE_ID   "TMPL6t1UuDZXD"

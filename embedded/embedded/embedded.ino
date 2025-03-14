@@ -9,6 +9,8 @@ BlynkTimer timer;
 DHT dht(DHT_11_SENSOR, DHT11);
 Adafruit_NeoPixel strip(NUM_LEDS, WS2812B_PIN, NEO_GRB + NEO_KHZ800);
 
+bool lastPumpState = false;
+
 void updateRGB() {
   for (int i = 0; i < strip.numPixels(); i++) strip.setPixelColor(i, strip.Color(r, g, b));
   Serial.printf("RGB Updated: (%d, %d, %d)\n", r, g, b);
@@ -59,7 +61,18 @@ void sendData() {
     bool shouldWater = (humidity_1 < MIN_SOIL_HUMIDITY || 
                        humidity_2 < MIN_SOIL_HUMIDITY || 
                        room_temperature > MAX_TEMP);
-    digitalWrite(RELAY_PUMP, shouldWater ? HIGH : LOW);
+    
+    if (shouldWater != lastPumpState) {
+      if (shouldWater) {
+        digitalWrite(RELAY_PUMP, HIGH);
+        Blynk.logEvent("turn_bump_on", "Bat may bom, vi do am thap");
+      } else {
+        digitalWrite(RELAY_PUMP, LOW);
+        Blynk.logEvent("turn_bump_on", "Da du do am, tat may bom!");
+      }
+      lastPumpState = shouldWater;
+    }
+    
     Blynk.virtualWrite(V4, shouldWater ? 1 : 0);
   }
 }
