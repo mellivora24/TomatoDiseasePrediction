@@ -1,7 +1,4 @@
 .idea
 .venv
-train
-test
-./embedded
-./report
-./.gitignore
+.env
+.gitignore
