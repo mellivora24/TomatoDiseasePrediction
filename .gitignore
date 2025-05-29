@@ -2,3 +2,6 @@
 .venv
 train
 test
+./embedded
+./report
+./.gitignore
