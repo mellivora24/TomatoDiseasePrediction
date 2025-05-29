@@ -1,6 +1,6 @@
 # Plant Disease Prediction
 
-This project is a machine learning application designed to predict plant diseases from images. It uses a pre-trained YOLO v11 model to classify images of plant leaves into various disease categories or identify them as healthy. The application is built with Python and utilizes the PyQt5 framework for the graphical user interface (GUI).
+This project is a machine learning application designed to predict plant diseases from images. It uses a trained YOLO v11 model to classify images of plant leaves into various disease categories or identify them as healthy. The application is built with Python and utilizes the PyQt5 framework for the graphical user interface (GUI).
 
 ## Features
 
